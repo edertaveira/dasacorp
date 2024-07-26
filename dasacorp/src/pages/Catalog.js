@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Select, message, Tooltip } from "antd";
+import {
+  Table,
+  Button,
+  Modal,
+  Select,
+  message,
+  Tooltip,
+  Popconfirm,
+} from "antd";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { EditOutlined, PlusOutlined, SwapOutlined } from "@ant-design/icons";
-import { render } from "@testing-library/react";
+import {
+  EditOutlined,
+  PlusOutlined,
+  SwapOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -68,6 +80,18 @@ const Catalog = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      await axios.delete(`http://localhost:8001/api/products/${id}`);
+      message.success("Produto excluído com sucesso!");
+      fetchProducts();
+    } catch (error) {
+      message.error("Erro ao excluir produto.");
+    }
+    setLoading(false);
+  };
+
   const columns = [
     {
       title: "Tírulo",
@@ -126,6 +150,14 @@ const Catalog = () => {
               onClick={() => handleCategoryModalOpen(record)}
             />
           </Tooltip>
+          <Popconfirm
+            title="Tem certeza que deseja excluir este produto?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="Sim"
+            cancelText="Não"
+          >
+            <Button icon={<DeleteOutlined />} type="link" danger></Button>
+          </Popconfirm>
         </>
       ),
     },

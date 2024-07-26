@@ -195,12 +195,6 @@ const deleteProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    if (product.ownerId !== ownerId) {
-      return res.status(400).json({
-        message: "Unauthorized delete: Product must belong to the same owner",
-      });
-    }
-
     await product.destroy();
     await deleteFromProductCatalog(product.id);
 

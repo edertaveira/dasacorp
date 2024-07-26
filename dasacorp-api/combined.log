@@ -58,3 +58,4 @@
 {"level":"info","message":"POST /categories"}
 {"level":"info","message":"GET /api/category"}
 {"level":"info","message":"POST /api/product/associate"}
+{"level":"info","message":"GET /favicon.ico"}
